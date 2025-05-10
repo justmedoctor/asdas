@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内在天气研究所 - 10堂情绪修复课程</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap">
+    <style>
+        :root {
+            --primary-color: #3a4a5e;
+            --secondary-color: #8FB9AA;
+            --accent-color: #D6A2AD;
+            --text-color: #333333;
+            --light-color: #f9f9f9;
+            --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-medium: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --transition-fast: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-color);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            background-color: white;
+        }
+
+        .full-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+        }
+
+        .weather-bg {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6)), url('https://images.unsplash.com/photo-1534088568595-a066f410bcda?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .elegant-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+            transition: var(--transition-medium);
+        }
+
+        .section-title:hover::after {
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition-fast);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: var(--transition-medium);
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            border-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card {
+            border-radius: 12px;
+            padding: 2rem;
+            background: white;
+            transition: var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 0;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            opacity: 0.05;
+            transition: var(--transition-medium);
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            transition: var(--transition-medium);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2);
+        }
+
+        .testimonial {
+            border-radius: 12px;
+            padding: 2rem;
+            background: white;
+            position: relative;
+            margin-top: 3rem;
+        }
+
+        .testimonial::before {
+            content: '\201C';
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            font-size: 5rem;
+            color: var(--accent-color);
+            font-family: serif;
+            opacity: 0.5;
+        }
+
+        .wave-divider {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .wave-divider svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 80px;
+        }
+
+        .wave-divider .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition-medium);
+        }
+
+        .navbar.scrolled {
+            background-color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .fadeIn {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fadeIn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+            z-index: -1;
+        }
+
+        .weather-icon {
+            position: relative;
+            display: inline-block;
+            font-size: 3rem;
+            margin-right: 1rem;
+        }
+
+        .weather-icon.sun::after {
+            content: '☀️';
+        }
+
+        .weather-icon.rain::after {
+            content: '🌧️';
+        }
+
+        .weather-icon.cloud::after {
+            content: '☁️';
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+        .hover-lift {
+            transition: var(--transition-fast);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+
+        .circle-decoration {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        /* 添加媒体查询以确保内容在PDF导出时正确显示 */
+        @media print {
+            .full-section {
+                height: auto;
+                min-height: auto;
+                page-break-inside: avoid;
+            }
+            
+            .navbar {
+                position: relative;
+            }
+            
+            .hidden-print {
+                display: none !important;
+            }
+            
+            body {
+                font-size: 12pt;
+            }
+            
+            .wave-divider {
+                display: none;
+            }
+        }
+
+        /* 动画定义 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 情绪色彩渐变背景 */
+        .emotion-gradient {
+            background: linear-gradient(135deg, #a6e3e9 0%, #cbf1f5 25%, #e3fdfd 50%, #71c9ce 100%);
+        }
+
+        /* 价格标签样式 */
+        .price-tag {
+            display: inline-block;
+            position: relative;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            font-weight: 700;
+            font-size: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: var(--transition-fast);
+        }
+        
+        .price-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 报名按钮动画 */
+        .cta-button {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar py-4 px-6 md:px-12">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-2xl font-bold text-primary-color">内在天气研究所</div>
+            </div>
+            <div>
+                <button class="btn-primary">联系我们</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="full-section weather-bg">
+        <div class="container mx-auto px-6 md:px-12 py-24">
+            <div class="max-w-4xl" data-aos="fade-up" data-aos-delay="200">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    <span class="block">掌握你的内在天气</span>
+                    <span class="block text-3xl md:text-4xl mt-2 text-gray-600">10堂情绪修复课程</span>
+                </h1>
+                <div class="h-1 w-24 bg-accent-color mb-8"></div>
+                <p class="text-xl md:text-2xl mb-12 max-w-2xl leading-relaxed">
+                    <span class="italic">"我不是玻璃心，只是情绪太多的时候不知道怎么处理。"</span><br>
+                    <span class="italic">"我好想被理解，但有时候连我自己都听不懂自己。"</span>
+                </p>
+                <a href="#learn-more" class="btn-primary text-lg">了解更多</a>
+            </div>
+        </div>
+        <div class="scroll-indicator hidden-print">
+            <i class="fas fa-chevron-down text-2xl text-gray-600 animate-bounce"></i>
+        </div>
+    </section>
+
+    <!-- 你将学到什么 -->
+    <section id="learn-more" class="py-24 gradient-bg">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title text-center">你将学到什么</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">10堂情绪修复课 × 10个实战练习</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">看懂自己的情绪地图</h3>
+                    <p class="text-gray-600">学习识别、命名和理解各种情绪，建立自己的情绪词汇库，不再被模糊的感受困扰。</p>
+                </div>
+
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">不再被情绪牵着走</h3>
+                    <p class="text-gray-600">掌握应对强烈情绪的实用技巧，学习如何在情绪风暴中保持清醒和选择权。</p>
+                </div>
+
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">找到让你安心的连接</h3>
+                    <p class="text-gray-600">建立健康的情感连接模式，学习如何在关系中表达需求和界限，创造安全感。</p>
+                </div>
+
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">温柔但坚定地说"不"</h3>
+                    <p class="text-gray-600">掌握设置健康界限的艺术，学习如何在不伤害关系的情况下保护自己的需求和价值。</p>
+                </div>
+
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">制定自己的"情绪照顾系统"</h3>
+                    <p class="text-gray-600">根据个人特点创建专属的情绪照顾方案，建立日常习惯和应急预案，提升情绪弹性。</p>
+                </div>
+
+                <div class="feature-card elegant-shadow" data-aos="fade-up" data-aos-delay="600">
+                    <div class="feature-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">情绪与生活的平衡</h3>
+                    <p class="text-gray-600">探索情绪能量如何影响生活各个层面，学习如何将情感智慧融入工作、关系和自我成长中。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程适合谁 -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 md:pr-12 mb-12 md:mb-0" data-aos="fade-right">
+                    <h2 class="section-title">课程适合谁？</h2>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="mr-4 text-accent-color">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <p class="text-lg">容易情绪起伏、不知如何表达的人</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="mr-4 text-accent-color">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <p class="text-lg">想和自己和解、也想好好爱别人的人</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="mr-4 text-accent-color">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <p class="text-lg">需要一个清晰路径来建立自我照顾系统的人</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="mr-4 text-accent-color">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <p class="text-lg">想提升情绪管理能力的职场人士</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="mr-4 text-accent-color">
+                                <i class="fas fa-check-circle text-xl"></i>
+                            </div>
+                            <p class="text-lg">希望在人际关系中更加自在的人</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="md:w-1/2 flex justify-center" data-aos="fade-left">
+                    <div class="relative p-3 bg-white rounded-lg elegant-shadow" style="max-width: 400px;">
+                        <div class="emotion-gradient p-6 rounded-lg">
+                            <div class="text-center">
+                                <div class="mb-6 text-4xl">
+                                    <span class="weather-icon sun"></span>
+                                    <span class="weather-icon cloud"></span>
+                                    <span class="weather-icon rain"></span>
+                                </div>
+                                <h3 class="text-2xl font-semibold mb-4">内在天气预报</h3>
+                                <p class="mb-4">无论你的内在天气如何变化，<br>我们都能帮你找到适合的应对之道。</p>
+                                <div class="text-sm italic">
+                                    ——每个人都值得拥有自己的情绪避风港
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品结构 -->
+    <section class="py-24 gradient-bg">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title text-center">课程包含内容</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">精心设计的情绪修复工具包</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <div class="bg-white p-8 rounded-lg elegant-shadow" data-aos="fade-right">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-book text-3xl text-primary-color mr-4"></i>
+                        <h3 class="text-2xl font-semibold">主课程讲义 PDF</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>包含10章课程：标题、目标、引导问题、内容、练习、金句</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>设计为 A4 竖版，适合打印或电子阅读</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>带有目录页、结语页、致谢页</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>专业排版，清晰易读</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg elegant-shadow" data-aos="fade-left">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-toolbox text-3xl text-primary-color mr-4"></i>
+                        <h3 class="text-2xl font-semibold">附件模板工具包</h3>
+                    </div>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>《情绪急救清单》可填写表格</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>《我的情绪照顾手册》A4填空页</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>情绪天气日记模版（PDF + PNG）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>非暴力沟通练习卡 × 6张</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-circle text-xs mt-1.5 mr-3 text-accent-color"></i>
+                            <span>界限练习句式卡 × 8张</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg elegant-shadow md:col-span-2" data-aos="fade-up">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-gift text-3xl text-primary-color mr-4"></i>
+                        <h3 class="text-2xl font-semibold">可选加值内容（若你未来加入）</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-4 bg-gray-50 rounded-lg hover-lift">
+                            <i class="fas fa-headphones text-2xl text-accent-color mb-3"></i>
+                            <h4 class="text-lg font-medium mb-2">音频引导包</h4>
+                            <p class="text-gray-600 text-sm">冥想、呼吸、正念扫描等音频指导，帮助你实践所学内容</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg hover-lift">
+                            <i class="fas fa-palette text-2xl text-accent-color mb-3"></i>
+                            <h4 class="text-lg font-medium mb-2">手帐贴纸电子档</h4>
+                            <p class="text-gray-600 text-sm">情绪贴纸包，可打印装饰你的手帐或日记</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg hover-lift">
+                            <i class="fas fa-users text-2xl text-accent-color mb-3"></i>
+                            <h4 class="text-lg font-medium mb-2">导师伴读手札</h4>
+                            <p class="text-gray-600 text-sm">每日打卡模板，助你坚持实践</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价格部分 -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="section-title text-center">投资你的情绪健康</h2>
+                    <p class="text-xl text-gray-600">一次投资，终身受益</p>
+                </div>
+
+                <div class="bg-white rounded-xl elegant-shadow overflow-hidden" data-aos="fade-up">
+                    <div class="p-8 md:p-12">
+                        <div class="flex flex-col md:flex-row items-center justify-between mb-10">
+                            <div class="mb-8 md:mb-0">
+                                <div class="price-tag mb-4">
+                                    USD $100
+                                    <div class="text-lg font-normal mt-1">RM 500</div>
+                                </div>
+                                <div class="text-sm text-gray-500">一次性付款，永久访问</div>
+                            </div>
+                            <div>
+                                <a href="#" class="btn-primary text-lg cta-button">
+                                    开始情绪修复之旅
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                    课程内容包括
+                                </h3>
+                                <ul class="space-y-3 pl-10">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>10章完整情绪修复课程PDF</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>情绪工具包（5种实用模板）</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>可打印练习卡片（14张）</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                                    <i class="fas fa-plus-circle text-blue-500 mr-3"></i>
+                                    额外加值服务
+                                </h3>
+                                <ul class="space-y-3 pl-10">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>提供每日打卡机制</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>Telegram频道打卡支持</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                        <span>内在天气研究所社群支持</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <div class="flex items-start">
+                                <div class="mr-4 text-yellow-500">
+                                    <i class="fas fa-lightbulb text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-medium">为什么选择现在开始？</h4>
+                                    <p class="text-gray-600">情绪健康不是奢侈品，而是生活必需品。每一天的情绪累积，都在塑造你的生活质量和人际关系。现在开始，不仅是对自己内心世界的投资，更是对你整体生活品质的提升。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 用户反馈 -->
+    <section class="py-24 gradient-bg">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="section-title text-center">学员的心声</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">看看他们的情绪修复之旅</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="testimonial elegant-shadow" data-aos="fade-up" data-aos-delay="100">
+                    <p class="text-gray-600 mb-6 italic">
+                        "读完第5课那天，我没有再骂自己懒，而是泡了个澡。这是我第一次真正意义上的自我照顾，没有愧疚感。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-color rounded-full flex items-center justify-center text-white font-bold">L</div>
+                        <div class="ml-3">
+                            <div class="font-medium">李小姐</div>
+                            <div class="text-sm text-gray-500">32岁，项目经理</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial elegant-shadow" data-aos="fade-up" data-aos-delay="200">
+                    <p class="text-gray-600 mb-6 italic">
+                        "我第一次不生气地说了拒绝，结果对方反而更尊重我。这个课程教会我，界限不是墙，而是门，我可以选择何时开关。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-color rounded-full flex items-center justify-center text-white font-bold">C</div>
+                        <div class="ml-3">
+                            <div class="font-medium">陈先生</div>
+                            <div class="text-sm text-gray-500">28岁，设计师</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial elegant-shadow" data-aos="fade-up" data-aos-delay="300">
+                    <p class="text-gray-600 mb-6 italic">
+                        "情绪天气日记帮我看见了自己的模式。原来我总是在周三情绪低落，现在我提前做好准备，整周都稳定多了。"
+                    </p>
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-primary-color rounded-full flex items-center justify-center text-white font-bold">W</div>
+                        <div class="ml-3">
+                            <div class="font-medium">王女士</div>
+                            <div class="text-sm text-gray-500">35岁，教师</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 最终行动召唤 -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="max-w-4xl mx-auto text-center" data-aos="fade-up">
+                <h2 class="text-4xl font-bold mb-6">开始你的情绪修复之旅</h2>
+                <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                    每一次情绪风暴，都是与自己深度对话的机会。<br>
+                    今天开始，让我们一起重新定义你的内在天气。
+                </p>
+                <a href="#" class="btn-primary text-xl px-10 py-4">
+                    立即获取课程
+                    <i class="fas fa-heart ml-2"></i>
+                </a>
+
+                <div class="mt-16 pt-8 border-t border-gray-200">
+                    <div class="flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" alt="内在天气研究所" class="w-16 h-16 rounded-full object-cover border-2 border-accent-color">
+                        <div class="ml-4 text-left">
+                            <div class="text-lg font-medium">内在天气研究所</div>
+                            <p class="text-sm text-gray-500">
+                                陪伴你探索情绪的风雨晴朗
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="py-12 bg-gray-800 text-white">
+        <div class="container mx-auto px-6 md:px-12">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-2xl font-bold mb-4">内在天气研究所</h3>
+                    <p class="text-gray-400 max-w-md">
+                        致力于为每个人提供实用的情绪管理工具和方法，帮助你在情绪的风雨中找到属于自己的晴天。
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">联系我们</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl">
+                            <i class="far fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-700 text-center text-sm text-gray-500">
+                <p>© 2023 内在天气研究所版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // 初始化AOS动画库
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // 实现元素进入视图时的淡入效果
+        const fadeElements = document.querySelectorAll('.fadeIn');
+        
+        const fadeInObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(element => {
+            fadeInObserver.observe(element);
+        });
+
+        // 视差效果
+        window.addEventListener('scroll', function() {
+            const parallaxElements = document.querySelectorAll('.parallax-bg');
+            parallaxElements.forEach(element => {
+                const scrollPosition = window.pageYOffset;
+                const speed = element.dataset.speed || 0.3;
+                element.style.transform = `translateY(${scrollPosition * speed}px)`;
+            });
+        });
+
+        // 在页面加载后添加一些随机装饰元素
+        window.addEventListener('load', function() {
+            const body = document.body;
+            const colors = ['#a6e3e9', '#cbf1f5', '#e3fdfd', '#71c9ce'];
+            
+            for (let i = 0; i < 5; i++) {
+                const circle = document.createElement('div');
+                circle.classList.add('circle-decoration');
+                
+                const size = Math.random() * 300 + 100;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                circle.style.width = `${size}px`;
+                circle.style.height = `${size}px`;
+                circle.style.backgroundColor = color;
+                circle.style.left = `${Math.random() * 100}%`;
+                circle.style.top = `${Math.random() * document.body.scrollHeight}px`;
+                
+                body.appendChild(circle);
+            }
+        });
+    </script>
+</body>
+</html>
